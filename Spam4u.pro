@@ -30,9 +30,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../Documents/QtProjects/build-SMTPEmail-Desktop_Qt_5_14_1_MinGW_64_bit-Release/ -lSMTPEmail
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../Documents/QtProjects/build-SMTPEmail-Desktop_Qt_5_14_1_MinGW_64_bit-Release/ -lSMTPEmail
-else:unix: LIBS += -L$$PWD/../../../Documents/QtProjects/build-SMTPEmail-Desktop_Qt_5_14_1_MinGW_64_bit-Release/ -lSMTPEmail
+unix|win32: LIBS += -L$$OUT_PWD/../SmtpClient-for-Qt/ -lSMTPEmail
 
-INCLUDEPATH += $$PWD/SmtpClient-for-Qt/src
-DEPENDPATH += $$PWD/SmtpClient-for-Qt/src
+INCLUDEPATH += $$PWD/../SmtpClient-for-Qt/src
+DEPENDPATH += $$PWD/../SmtpClient-for-Qt/src
