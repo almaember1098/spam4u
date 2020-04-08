@@ -30,6 +30,8 @@ private slots:
 
     void on_editSelectedVictimButton_clicked();
 
+    void on_actionAbout_Spam4u_triggered();
+
 private:
     Ui::MainWindow *ui;
     SmtpClient *smtp = nullptr;

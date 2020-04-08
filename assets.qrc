@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/logos">
+        <file>assets/logos/built-with-Qt_Horizontal_Large.png</file>
+        <file>assets/logos/built-with-Qt_Small.png</file>
+    </qresource>
+</RCC>

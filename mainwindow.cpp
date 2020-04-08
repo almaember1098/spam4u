@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QListWidgetItem>
 #include <QInputDialog>
+#include "Dialogs/aboutdialog.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -111,6 +112,8 @@ QStringList MainWindow::listFromListWidget(QListWidget *widget)
     {
         resultList.append(widget->item(i)->text());
     }
+
+    return resultList;
 }
 
 void MainWindow::on_beginSpammingButton_clicked()
@@ -135,9 +138,9 @@ void MainWindow::on_addVictimButton_clicked()
 
 void MainWindow::on_removeSelectedVictimButton_clicked()
 {
-    QListWidgetItem *itemToRemove = ui->victimListWidget->takeItem(
-                ui->victimListWidget->currentRow());
-    delete itemToRemove;
+    QList<QListWidgetItem *> itemsToDelete;
+    itemsToDelete = ui->victimListWidget->selectedItems();
+    qDeleteAll(itemsToDelete);
 }
 
 void MainWindow::on_editSelectedVictimButton_clicked()
@@ -149,4 +152,10 @@ void MainWindow::on_editSelectedVictimButton_clicked()
                                               ui->victimListWidget->currentItem()->text(), &ok);
     if(ok && !newVictim.isEmpty())
         ui->victimListWidget->currentItem()->setText(newVictim);
+}
+
+void MainWindow::on_actionAbout_Spam4u_triggered()
+{
+    AboutDialog dialog;
+    dialog.exec();
 }

@@ -16,13 +16,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Dialogs/aboutdialog.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    Dialogs/aboutdialog.h \
     mainwindow.h
 
 FORMS += \
+    Dialogs/aboutdialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.
@@ -34,3 +37,6 @@ unix|win32: LIBS += -L$$OUT_PWD/../SmtpClient-for-Qt/ -lSMTPEmail
 
 INCLUDEPATH += $$PWD/../SmtpClient-for-Qt/src
 DEPENDPATH += $$PWD/../SmtpClient-for-Qt/src
+
+RESOURCES += \
+    assets.qrc
