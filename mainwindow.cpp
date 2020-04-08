@@ -3,6 +3,8 @@
 #include <QStringList>
 #include <QDebug>
 #include <QMessageBox>
+#include <QListWidgetItem>
+#include <QInputDialog>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -30,7 +32,7 @@ void MainWindow::on_setupMailAccountButton_clicked()
 
     QString serverAddress;
     int serverPort;
-    QStringList serverData = ui->smtpServerEdit->text().split(':');
+    QString serverData = ui->smtpServerEdit->text();
 
     // check for problems
     if (serverData.length() != 2)
@@ -40,8 +42,8 @@ void MainWindow::on_setupMailAccountButton_clicked()
     }
 
     // setup SMTP client
-    serverAddress = serverData[0];
-    serverPort = serverData[1].toInt();
+    serverAddress = serverData;
+    serverPort = ui->portSpinBox->value();
     qDebug() << serverAddress << serverPort;
     smtp = new SmtpClient(serverAddress, serverPort, SmtpClient::TlsConnection);
 
@@ -102,11 +104,49 @@ void MainWindow::spamPeople(QStringList victims, QString message, int timesForEa
     msgbox.exec();
 }
 
+QStringList MainWindow::listFromListWidget(QListWidget *widget)
+{
+    QStringList resultList;
+    for(int i=0; i<widget->count(); ++i)
+    {
+        resultList.append(widget->item(i)->text());
+    }
+}
+
 void MainWindow::on_beginSpammingButton_clicked()
 {
-    QStringList victims = ui->plainTextEdit->toPlainText().split('\n');
+    QStringList victims = listFromListWidget(ui->victimListWidget);
     int timesForEachVictim = ui->sendTimeSpinBox->value();
     QString message = ui->messageEdit->toPlainText();
 
     spamPeople(victims, message, timesForEachVictim);
+}
+
+void MainWindow::on_addVictimButton_clicked()
+{
+    bool ok;
+    QString newVictim = QInputDialog::getText(this, tr("Add new victim"),
+                                              tr("Victim's email address:"),
+                                              QLineEdit::Normal,
+                                              QString(""), &ok);
+    if(ok && !newVictim.isEmpty())
+        ui->victimListWidget->addItem(newVictim);
+}
+
+void MainWindow::on_removeSelectedVictimButton_clicked()
+{
+    QListWidgetItem *itemToRemove = ui->victimListWidget->takeItem(
+                ui->victimListWidget->currentRow());
+    delete itemToRemove;
+}
+
+void MainWindow::on_editSelectedVictimButton_clicked()
+{
+    bool ok;
+    QString newVictim = QInputDialog::getText(this, tr("Edit victim"),
+                                              tr("Victim's email address:"),
+                                              QLineEdit::Normal,
+                                              ui->victimListWidget->currentItem()->text(), &ok);
+    if(ok && !newVictim.isEmpty())
+        ui->victimListWidget->currentItem()->setText(newVictim);
 }

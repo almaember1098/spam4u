@@ -5,6 +5,7 @@
 #include <QList>
 #include <QString>
 #include <SmtpMime>
+#include <QListWidget>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,6 +24,12 @@ private slots:
 
     void on_beginSpammingButton_clicked();
 
+    void on_addVictimButton_clicked();
+
+    void on_removeSelectedVictimButton_clicked();
+
+    void on_editSelectedVictimButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     SmtpClient *smtp = nullptr;
@@ -30,5 +37,6 @@ private:
     bool smtpLogin();
     void problemWithInput(QString problematicField);
     void spamPeople(QStringList victims, QString message, int timesForEachVictim);
+    QStringList listFromListWidget(QListWidget *widget);
 };
 #endif // MAINWINDOW_H
