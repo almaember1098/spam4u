@@ -5,6 +5,8 @@
 #include <QMessageBox>
 #include <QListWidgetItem>
 #include <QInputDialog>
+#include <QDesktopServices>
+#include <QRegExp>
 #include "Dialogs/aboutdialog.h"
 
 
@@ -62,9 +64,9 @@ bool MainWindow::smtpLogin()
 void MainWindow::problemWithInput(QString problematicField)
 {
     QMessageBox msgbox(this);
-    msgbox.setWindowTitle("Error");
+    msgbox.setWindowTitle(tr("Error"));
     msgbox.setIcon(QMessageBox::Warning);
-    msgbox.setText("There is a problem with the following input field:");
+    msgbox.setText(tr("There is a problem with the following input field:"));
     msgbox.setDetailedText(problematicField);
     msgbox.exec();
 }
@@ -79,7 +81,7 @@ void MainWindow::spamPeople(QStringList victims, QString message, int timesForEa
         foreach (const QString& victim, victims) {
             QCoreApplication::processEvents();
 
-            // the eMail we will send
+            // the email we will send
             MimeMessage msg;
             msg.setSender(new EmailAddress(smtp->getUser()));
             msg.addRecipient(new EmailAddress(victim));
@@ -100,8 +102,8 @@ void MainWindow::spamPeople(QStringList victims, QString message, int timesForEa
 
     QMessageBox msgbox(
                 QMessageBox::Information,
-                "Ready",
-                "Spamming ready!");
+                tr("Ready"),
+                tr("Spamming ready!"));
     msgbox.exec();
 }
 
@@ -114,6 +116,25 @@ QStringList MainWindow::listFromListWidget(QListWidget *widget)
     }
 
     return resultList;
+}
+
+bool MainWindow::checkEmailAddress(const QString &email) const
+{
+    QRegExp mailREX("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b");
+    mailREX.setCaseSensitivity(Qt::CaseInsensitive);
+    mailREX.setPatternSyntax(QRegExp::RegExp);
+    bool doesItMatch = mailREX.exactMatch(email);
+    if(!doesItMatch)
+    {
+        QMessageBox msgbox;
+        msgbox.setIcon(QMessageBox::Critical);
+        msgbox.setWindowTitle(tr("Error"));
+        msgbox.setText(tr("Invalid email address"));
+        msgbox.setDetailedText(tr("The email address you entered (\"%1\") is not a valid email address.\n"
+                                  "Please enter a valid email address").arg(email));
+        msgbox.exec();
+    }
+    return doesItMatch;
 }
 
 void MainWindow::on_beginSpammingButton_clicked()
@@ -132,6 +153,8 @@ void MainWindow::on_addVictimButton_clicked()
                                               tr("Victim's email address:"),
                                               QLineEdit::Normal,
                                               QString(""), &ok);
+    if(!checkEmailAddress(newVictim))
+        return;
     if(ok && !newVictim.isEmpty())
         ui->victimListWidget->addItem(newVictim);
 }
@@ -145,11 +168,16 @@ void MainWindow::on_removeSelectedVictimButton_clicked()
 
 void MainWindow::on_editSelectedVictimButton_clicked()
 {
+    if(ui->victimListWidget->selectedItems().size()!=1)
+        return;
     bool ok;
     QString newVictim = QInputDialog::getText(this, tr("Edit victim"),
                                               tr("Victim's email address:"),
                                               QLineEdit::Normal,
                                               ui->victimListWidget->currentItem()->text(), &ok);
+    if(!checkEmailAddress(newVictim))
+        return;
+    qDebug() << ui->victimListWidget->currentRow();
     if(ok && !newVictim.isEmpty())
         ui->victimListWidget->currentItem()->setText(newVictim);
 }
@@ -158,4 +186,22 @@ void MainWindow::on_actionAbout_Spam4u_triggered()
 {
     AboutDialog dialog;
     dialog.exec();
+}
+
+void MainWindow::on_actionProject_page_triggered()
+{
+    QString projectPage = "https://almaember.joomla.com/index.php/my-products/3-spam4u";
+    QDesktopServices::openUrl(projectPage);
+}
+
+void MainWindow::on_actionGitHub_project_triggered()
+{
+    QString gitHubRepo = "https://github.com/almaember1098/spam4u-full";
+    QDesktopServices::openUrl(gitHubRepo);
+}
+
+void MainWindow::on_actionGitHub_wiki_triggered()
+{
+    QString gitHubWiki = "https://github.com/almaember1098/spam4u/wiki";
+    QDesktopServices::openUrl(gitHubWiki);
 }

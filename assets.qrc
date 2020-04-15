@@ -2,5 +2,14 @@
     <qresource prefix="/logos">
         <file>assets/logos/built-with-Qt_Horizontal_Large.png</file>
         <file>assets/logos/built-with-Qt_Small.png</file>
+        <file>assets/logos/GitHub-Mark/PNG/GitHub-Mark-32px.png</file>
+        <file>assets/logos/GitHub-Mark/PNG/GitHub-Mark-64px.png</file>
+        <file>assets/logos/GitHub-Mark/PNG/GitHub-Mark-120px-plus.png</file>
+        <file>assets/logos/GitHub-Mark/PNG/GitHub-Mark-Light-32px.png</file>
+        <file>assets/logos/GitHub-Mark/PNG/GitHub-Mark-Light-64px.png</file>
+        <file>assets/logos/GitHub-Mark/PNG/GitHub-Mark-Light-120px-plus.png</file>
+    </qresource>
+    <qresource prefix="/stylesheets">
+        <file>assets/Stylesheets/MainWindow.qss</file>
     </qresource>
 </RCC>

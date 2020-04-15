@@ -32,6 +32,12 @@ private slots:
 
     void on_actionAbout_Spam4u_triggered();
 
+    void on_actionProject_page_triggered();
+
+    void on_actionGitHub_project_triggered();
+
+    void on_actionGitHub_wiki_triggered();
+
 private:
     Ui::MainWindow *ui;
     SmtpClient *smtp = nullptr;
@@ -40,5 +46,6 @@ private:
     void problemWithInput(QString problematicField);
     void spamPeople(QStringList victims, QString message, int timesForEachVictim);
     QStringList listFromListWidget(QListWidget *widget);
+    bool checkEmailAddress(const QString &email) const;
 };
 #endif // MAINWINDOW_H

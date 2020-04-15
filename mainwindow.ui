@@ -315,11 +315,19 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionGitHub_project">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/logos/assets/logos/GitHub-Mark/PNG/GitHub-Mark-32px.png</normaloff>:/logos/assets/logos/GitHub-Mark/PNG/GitHub-Mark-32px.png</iconset>
+   </property>
    <property name="text">
-    <string>GitHub project</string>
+    <string>GitHub repository</string>
    </property>
   </action>
   <action name="actionGitHub_wiki">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/logos/assets/logos/GitHub-Mark/PNG/GitHub-Mark-32px.png</normaloff>:/logos/assets/logos/GitHub-Mark/PNG/GitHub-Mark-32px.png</iconset>
+   </property>
    <property name="text">
     <string>GitHub wiki</string>
    </property>
@@ -335,6 +343,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="assets.qrc"/>
+ </resources>
  <connections/>
 </ui>
